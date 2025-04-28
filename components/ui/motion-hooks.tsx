@@ -3,7 +3,7 @@ import React, { useRef } from "react";
 import Image from "next/image";
 import { IconRocket } from "@tabler/icons-react";
 
-import { useMotionValueEvent, useScroll, useTransform, motion, useMotionTemplate } from "motion/react";
+import { useMotionValueEvent, useScroll, useTransform, motion, useMotionTemplate, useSpring } from "motion/react";
 
 export default function MotionHooksExample() {
   return (
@@ -28,7 +28,11 @@ const Card2 = ({ feature }: { feature: Feature }) => {
 //     console.log("Changed values ", latest)
 //   }) 
 
-    const translateContent = useTransform(scrollYProgress, [0,1], [-200,200]);
+    const translateContent = useSpring(useTransform(scrollYProgress, [0,1], [-200,200]), {
+        stiffness: 100,
+        damping: 20,
+        mass: 10
+    });
     const opacityContent = useTransform(scrollYProgress, [0, 0.5, 1], [0,1,0]);
     const scaleContent = useTransform(scrollYProgress, [0,0.5,1], [0.5, 1, 0.5]);
     const blurContent = useTransform(scrollYProgress, [0, 0.45, 0.55, 1], [10, 0, 0, 10])

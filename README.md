@@ -39,3 +39,14 @@
     const smoothValue = useSpring(value, { stiffness, damping, mass }) 
     ```
 - It is perfect for making scroll-based animations, drag effects, and UI transitions feel fluid and realistic.
+- Example 
+    ```javascript
+        const translateContent = useSpring(useTransform(scrollYProgress, [0,1], [-200,200]), {
+        stiffness: 100,
+        damping: 20,
+        mass: 10
+    });
+    ```
+- **stiffness** : How strong the spring pulls back to the target value, higher stiffness -> faster movements (feels tight and snappy).
+- **damping** : How quickly the motion slows down (removes bounciness), higher damping → less bounce, stops faster.
+- **mass** : How heavy the object feels during the motion, higher mass → moves slower and more "weighty"  
