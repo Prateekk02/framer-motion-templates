@@ -1,19 +1,58 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import Image from "next/image";
 import { IconRocket } from "@tabler/icons-react";
 
-import { useMotionValueEvent, useScroll, useTransform, motion, useMotionTemplate, useSpring } from "motion/react";
+import {
+  useMotionValueEvent,
+  useScroll,
+  useTransform,
+  motion,
+  useMotionTemplate,
+  useSpring,
+} from "motion/react";
 
 export default function MotionHooksExample() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  const backgroundColorList = [
+    "#2C3E50", // Dark desaturated blue-gray
+    "#00695C", // Deep teal green
+    "#A65F2B", // Burnt peach
+    "#6A5B8C", // Dusty lavender
+    "#2E7D32", // Forest green
+    "#880E4F", // Deep pink
+    "#00796B", // Deep aqua
+    "#8D6E63", // Muted warm brown
+  ];
+
+  const [backgroundColor, setBackgroundColor] = useState(
+    backgroundColorList[0]
+  );
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    const finalValue = Math.floor(latest * (backgroundColorList.length - 1));
+    setBackgroundColor(backgroundColorList[finalValue]);
+    console.log("Latest Value --> ", finalValue);
+  });
   return (
-    <div className="flex items-center justify-content min-h-screen bg-neutral-900">
+    <motion.div
+      animate={{
+        backgroundColor,
+      }}
+      
+      ref={containerRef}
+      className="flex items-center justify-content min-h-screen bg-neutral-900"
+    >
       <div className="flex flex-col gap-10 max-w-4xl mx-auto py-40">
         {features.map((feature, idx) => (
           <Card2 key={feature.title} feature={feature} />
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -21,21 +60,25 @@ const Card2 = ({ feature }: { feature: Feature }) => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start end", "end start"],  // when element = start and viewport = end --> we want the scroll tracking to sta  rt 
+    offset: ["start end", "end start"], // when element = start and viewport = end --> we want the scroll tracking to sta  rt
   });
 
-//   useMotionValueEvent(scrollYProgress, "change", (latest) => {
-//     console.log("Changed values ", latest)
-//   }) 
+  //   useMotionValueEvent(scrollYProgress, "change", (latest) => {
+  //     console.log("Changed values ", latest)
+  //   })
 
-    const translateContent = useSpring(useTransform(scrollYProgress, [0,1], [-200,200]), {
-        stiffness: 100,
-        damping: 20,
-        mass: 10
-    });
-    const opacityContent = useTransform(scrollYProgress, [0, 0.5, 1], [0,1,0]);
-    const scaleContent = useTransform(scrollYProgress, [0,0.5,1], [0.5, 1, 0.5]);
-    const blurContent = useTransform(scrollYProgress, [0, 0.45, 0.55, 1], [10, 0, 0, 10])
+  const translateContent = useTransform(scrollYProgress, [0, 1], [-200, 200]);
+  const opacityContent = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0]);
+  const scaleContent = useTransform(
+    scrollYProgress,
+    [0, 0.5, 1],
+    [0.5, 1, 0.5]
+  );
+  const blurContent = useTransform(
+    scrollYProgress,
+    [0, 0.35, 0.65, 1],
+    [10, 0, 0, 10]
+  );
   return (
     <>
       <div
@@ -44,22 +87,24 @@ const Card2 = ({ feature }: { feature: Feature }) => {
         className="grid grid-cols-2 gap-20 items-center py-40"
       >
         <motion.div
-            style={{
-                filter: useMotionTemplate`blur(${blurContent}px)`
-            }}
-            className="flex flex-col gap-5"
+          style={{
+            filter: useMotionTemplate`blur(${blurContent}px)`,
+          }}
+          className="flex flex-col gap-5"
         >
           {feature.icon}
           <h2 className="text-4xl font-bold text-white">{feature.title}</h2>
           <p className="text-neutral-400 text-lg">{feature.description}</p>
         </motion.div>
         <motion.div
-            style={{
-                y: translateContent,
-                opacity: opacityContent,
-                scale: scaleContent
-            }}
-        >{feature.content}</motion.div>
+          style={{
+            y: translateContent,
+            opacity: opacityContent,
+            scale: scaleContent,
+          }}
+        >
+          {feature.content}
+        </motion.div>
       </div>
     </>
   );

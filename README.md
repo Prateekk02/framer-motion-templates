@@ -50,3 +50,12 @@
 - **stiffness** : How strong the spring pulls back to the target value, higher stiffness -> faster movements (feels tight and snappy).
 - **damping** : How quickly the motion slows down (removes bounciness), higher damping → less bounce, stops faster.
 - **mass** : How heavy the object feels during the motion, higher mass → moves slower and more "weighty"  
+
+### useMotionValueEvent
+- `useMotionValueEvent()` lets you subscribe to changes of a MotionValue and run side effects (like logging, updating state, or triggering animations) whenever the value updates.
+Syntax:
+
+    ```javascript
+    useMotionValueEvent(motionValue, "change", (latest) => { /* callback on update */ });
+    ```
+- It's useful when you want to react to motion changes rather than just animate — e.g., updating UI or triggering logic as the user scrolls or drags.
