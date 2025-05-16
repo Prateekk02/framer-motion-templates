@@ -34,7 +34,7 @@ export default function MotionHooksExample() {
     backgroundColorList[0]
   );
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    const finalValue = Math.floor(latest * (backgroundColorList.length - 1));
+    const finalValue = Math.floor(latest * (backgroundColorList.length));
     setBackgroundColor(backgroundColorList[finalValue]);
     console.log("Latest Value --> ", finalValue);
   });
@@ -42,8 +42,7 @@ export default function MotionHooksExample() {
     <motion.div
       animate={{
         backgroundColor,
-      }}
-      
+      }}      
       ref={containerRef}
       className="flex items-center justify-content min-h-screen bg-neutral-900"
     >
@@ -68,7 +67,11 @@ const Card2 = ({ feature }: { feature: Feature }) => {
   //   })
 
   const translateContent = useTransform(scrollYProgress, [0, 1], [-200, 200]);
-  const opacityContent = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0]);
+  const opacityContent = useSpring(useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0]), {
+    stiffness:200,
+    damping: 20,
+    mass: 2.5
+  });
   const scaleContent = useTransform(
     scrollYProgress,
     [0, 0.5, 1],

@@ -1,9 +1,10 @@
-import { GeistSans } from 'geist/font/sans'
+// import { GeistSans } from 'geist/font/sans'
 import React from 'react';
 import { cn } from '@/lib/utils';
+import LayoutCard from '@/components/LayoutCard';
 // import Card from '@/components/Card';
 // import Sidebar from '@/components/Sidebar';
-import MotionHooksExample from '@/components/ui/motion-hooks';
+// import MotionHooksExample from '@/components/ui/motion-hooks';
 
 export default function Home() {
   return (
@@ -16,8 +17,8 @@ export default function Home() {
         {/* <Card /> */}
       {/* </div> */}
 
-      <MotionHooksExample />
-
+      {/* <MotionHooksExample /> */}
+      <LayoutCard />
     </div>
   );
 }
