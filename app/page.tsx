@@ -1,10 +1,11 @@
 // import { GeistSans } from 'geist/font/sans'
 import React from 'react';
 import { cn } from '@/lib/utils';
-import LayoutCard from '@/components/LayoutCard';
+import LayoutCard from '@/components/LayoutCard'; // Layout Id in motion
 // import Card from '@/components/Card';
 // import Sidebar from '@/components/Sidebar';
 // import MotionHooksExample from '@/components/ui/motion-hooks';
+import Navbar from '@/components/Navbar';
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
       {/* </div> */}
 
       {/* <MotionHooksExample /> */}
+      <Navbar />
       <LayoutCard />
     </div>
   );
